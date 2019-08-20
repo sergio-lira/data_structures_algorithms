@@ -1,0 +1,20 @@
+### Union and Intersection
+
+Algorithms:
+    
+Union
+* Create a new list
+* iterate contents of list A and
+* check if the current element is not already in the new list, if not add
+* repeat the previous 2 steps for list B
+
+Intersection
+* Create a new list
+* Iterate contents of List A
+* check if the current element is part of list B, if it is and it is not already in new list add to list
+
+Notes:
+* Time complexity: For Union is O(a*n + b*n) were a and b is the size of each list and n is the size of the new list. For intersection, it is O(a*b*d) where a and b is the size of the list and d is the size of the intersection list.
+* Space complexity: For union, it is O(n) where n is the size of the union list. For intersection, it is O(n) where n is the size of the intersection
+* To alleviate the painful linear search I could use a data-structures like the Set of Collections module or any data structure that would allow me to check for group membership in constant time.
+* Sorting the lists and splicing them together would also help a lot and I could potentially use constant Space complexity by using one of the original lists as the 'splicing' list

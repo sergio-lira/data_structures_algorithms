@@ -1,0 +1,19 @@
+### LRU Cache
+An LRU cache is a type of cache in which we remove the least recently used entry when the cache memory reaches its limit. For the current problem, consider both get and set operations as an use operation.
+
+* In case of a cache hit, your get() operation should return the appropriate value.
+* In case of a cache miss, your get() should return -1.
+* While putting an element in the cache, your put() / set() operation must insert the element. If the cache is full, you must write code that removes the least recently used entry first and then insert the element.
+* All operations must take O(1) time.
+* For the current problem, you can consider the size of cache = 5.
+
+#### Explanation:
+
+In my final solution, I use an OrderedDict to keep the elements in the order that they are added. This helps me ensure that the element at the 'top' is the least used value. However, I had to change the behavior of the collection when the LRU cache gets a 'get' operation on an element, by shifting  the key that was accessed to the 'bottom' of the collection.
+
+Efficiency:
+ * Adding an element is done in constant time.
+ * Removing an element is done in constant time, I add the element and simply pop the 'top' element-the least used element.
+ * Retrieving an element is done in constant time, however, I'm curious of the implementation of the 'move_to_end' method of the ordered dictionary. I hope that this is done in constant time and avoid iterating and re-arranging the elements in the dictionary. 
+
+Before arriving at this implementation I tried to create a custom value class that kept the 'frequency' of access. Tried to use the frequency to keep track of the least used value. I was having difficulty handling the case of the dictionary at capacity and deleting the last used value without performing a linear search.

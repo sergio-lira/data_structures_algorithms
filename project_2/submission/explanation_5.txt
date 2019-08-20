@@ -1,0 +1,11 @@
+### BlockChain
+
+Notes:
+    * Create a Block class that stores the content of the block and generates a hash on creation.
+    * BlockChan class that contains a list of chains, each chain is initialized by a Block 0.
+    * Every new block is instantiated and has a reference to the previous block hash.
+    * Created two utility functions to help me populate a blockchain and visualize its contents.
+    
+Efficiency:
+   * Time - Adding a block is done in constant time. Iterating the blockchains is done in O(n) time.
+   * Space - O(b * n) where b is the number of blockchains and n is the size of each blockchain.
