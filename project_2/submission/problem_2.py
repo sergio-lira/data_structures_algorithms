@@ -1,4 +1,4 @@
-import os 
+import os
 
 def find_files(suffix, path):
     """
@@ -17,9 +17,9 @@ def find_files(suffix, path):
        a list of paths
     """
     result_set = list()
-    
+
     recursive_search(suffix, path, result_set)
-                
+
     return result_set
 
 def recursive_search(suffix, path, results):
@@ -28,14 +28,17 @@ def recursive_search(suffix, path, results):
             results.append(path)
         else:
             return
-    else:
+    elif os.path.isdir(path):
         items = os.listdir(path)
-        for item in items:            
-                recursive_search(suffix, os.path.join(path, item), results)    
+        for item in items:
+                recursive_search(suffix, os.path.join(path, item), results)
+    else:
+        print("Error: this path does not exist!")
+        return
 
 print('\n<<< Test Case 1 >>>\nSearching for .h')
 print(find_files(".h", "."))
-"""Expected result: 
+"""Expected result:
 ['.\\testdir\\subdir1\\a.h',
  '.\\testdir\\subdir3\\subsubdir1\\b.h',
  '.\\testdir\\subdir5\\a.h',
@@ -48,14 +51,18 @@ print(find_files(".c", "."))
  '.\\testdir\\subdir5\\a.c',
  '.\\testdir\\t1.c']"""
 
-print('\n<<< Test Case 2 >>>\nSearching for .f')
+print('\n<<< Test Case 3 >>>\nSearching for .f')
 print(find_files(".f", "."))
 #Expected empty set as result
 
-print('\n<<< Test Case 2 >>>\nSearching for t1.c')
+print('\n<<< Test Case 4 >>>\nSearching for t1.c')
 print(find_files('t1.c', "."))
 #Expected a single match
 
-print('\n<<< Test Case 2 >>>\nSearching for *.*')
+print('\n<<< Test Case 5 >>>\nSearching for *.*')
 print(find_files("*.*", "."))
+#Expected empty set, I was trying to mess around with the .endswith function
+
+print('\n<<< Test Case 6 >>>\nSearching for path that does not exist')
+print(find_files("*.*", "not_a_path/"))
 #Expected empty set, I was trying to mess around with the .endswith function

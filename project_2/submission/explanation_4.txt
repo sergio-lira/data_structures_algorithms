@@ -5,17 +5,24 @@ The first proposal of an algorithm:
  * For each user in the group
  * Check for user membership in that group, if true return True
  * Else for each sub-group, iterate (or recurse)
- 
-Given that sub-group could be a member of several other groups, we can potentially have a lot of repeated work. For example, if there exists a group C that is a subgroup of A and B, with the algorithm above, we would search it's users and sub-groups twice. 
+
+Given that sub-group could be a member of several other groups, we can potentially have a lot of repeated work. For example, if there exists a group C that is a subgroup of A and B, with the algorithm above, we would search it's users and sub-groups twice.
 
 * The First optimization is to ensure that we cache the search results and we don't 'visit' a group more than once. This cache also handles the potential issue of cyclical group memberships, and we won't recurse if we have seen this group before.
 
 * The Second optimization would also be to store if a user was not found in a previous group. This second cache, or perhaps a tuple value in the same cache as above, would prevent us from repeatedly searching for a user in a group that we have previously visited.
 
-* Third possible optimization would be to invert and flatter the hierarchy. To generate a cache mapping user to groups; if this is an operation that we perform regularly and needs to be optimized, it can be an option. 
+* Third possible optimization would be to invert and flatter the hierarchy. To generate a cache mapping user to groups; if this is an operation that we perform regularly and needs to be optimized, it can be an option.
 
 For now, I'll implement the algorithm with the first optimization
 
 Efficiency:
-* Time - O(n) * O(u) where n is the number of groups, and u is the number of users in each group.
-* Space - O(n) n is the total number of groups in the visited cache, we could potentially visiter every group and never find the user.
+
+Time
+ * Overall - O(n) * O(u) where n is the number of groups, and u is the number of users in each group.
+ * For each group we perform a linear search to find if the user is in its list of users.
+ * In the worst case we would have to visit every group to find a users or the user is not in not found.
+
+Space
+* Overall - O(n) n is the total number of groups in the visited cache
+* We could potentially visiter every group and never find the user.

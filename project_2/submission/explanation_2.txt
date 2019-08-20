@@ -14,5 +14,10 @@ For this problem, I had the choice of generating an iterative or recursive solut
 
 Efficiency:
 
-* Time: O(n) were N is the total number of elements, dir + files. Additionally, for each string the matching of the suffix should be O(s) were the s is the length of the string. So total time complexity is O(n) for the search * O(s) the length of the strings.
-* Space:O(n) for each recursive call on a dir uses space, and we are keeping a list of matched elements. O(s) is  the length of the strings
+Time - Overall O(n * s)
+* O(n) were n is the total number of elements, dir + files.
+* For each file we perform string search of the suffix, this operation is O(s) were the s is the length of the string.
+* If a dir is composed of (n) strings and all string are of length (s) then it would take O(n * s) to search all elements.
+
+Space - Overall O(n)
+* Each recursive call on a dir uses space O(n), and we are keeping a list of matched elements O(n) if all elements match.

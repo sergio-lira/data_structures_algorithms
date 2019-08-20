@@ -1,7 +1,7 @@
 ### Union and Intersection
 
 Algorithms:
-    
+
 Union
 * Create a new list
 * iterate contents of list A and
@@ -13,8 +13,17 @@ Intersection
 * Iterate contents of List A
 * check if the current element is part of list B, if it is and it is not already in new list add to list
 
-Notes:
-* Time complexity: For Union is O(a*n + b*n) were a and b is the size of each list and n is the size of the new list. For intersection, it is O(a*b*d) where a and b is the size of the list and d is the size of the intersection list.
-* Space complexity: For union, it is O(n) where n is the size of the union list. For intersection, it is O(n) where n is the size of the intersection
-* To alleviate the painful linear search I could use a data-structures like the Set of Collections module or any data structure that would allow me to check for group membership in constant time.
+Efficiency:
+Time:
+* For Union is O(a*n + b*n) were a and b is the size of each list and n is the size of the new list.
+* In this algorithm I'm constantly checking if the current note of list a or b is in the new list.
+* To address this I could use a Set of Collections module or any data structure that would allow me to check for group membership in constant time in the union set.
+* That would bring down the time complexity to O(a + b)
+
+* For intersection, it is O(a*b) where a and b is the size of the list and d is the size of the intersection list.
+* For every element in list a I check if it is in list b (and if it is not in the new list).
 * Sorting the lists and splicing them together would also help a lot and I could potentially use constant Space complexity by using one of the original lists as the 'splicing' list
+
+Space:
+*For union, it is O(n) where n is the size of the union list.
+*For intersection, it is O(n) where n is the size of the intersection

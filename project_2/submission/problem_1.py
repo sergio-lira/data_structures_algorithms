@@ -1,5 +1,5 @@
 from collections import OrderedDict
-    
+
 #Created a custom OrderedDict that will always keep new entries at the end of the structure.
 # the default behavior is overwriting a value of OrderedDict will keep the new value in the
 # positions of the old one, for LRU we want to 'pop' that value and move the new one to the end.
@@ -7,39 +7,39 @@ class LRU_Cache():
 
     def __init__(self, capacity):
         self.cache = OrderedDict()
-        self.capacity = capacity               
-        
+        self.capacity = capacity
+
     def __str__(self):
         s = "<Cache State>\n  key  value\n"
 
         for key, value in self.cache.items():
             s += f"   {key}--->{value}\n"
-        
+
         if len(self.cache):
             s += f"last used value: {next(iter(self.cache))}\n"
         else:
             s += '--Empty--'
         return s
-        
 
-    def get(self, key):        
+
+    def get(self, key):
         if key in self.cache:
-            value = self.cache[key] 
+            value = self.cache[key]
             #this get operation counts as a cache access so we move the key to the 'bottom'
             self.cache.move_to_end(key)
-            return value        
+            return value
         else:
             return -1
-        
+
     def set(self, key, value):
         if self.capacity  == 0:
             return
         self.cache[key] = value
-        #check if adding the last entry put the dict over capacity    
-        if len(self.cache) == self.capacity:
+        #check if adding the last entry put the dict over capacity
+        if len(self.cache) > self.capacity:
             #get reference to least_used value and delete it, in this dict it is at the 'top'
             self.cache.popitem(last=False)
-        
+
 print('\n<<< Test Case 1 >>>')
 cache = LRU_Cache(5)
 
@@ -88,4 +88,17 @@ cache = LRU_Cache(size)
 for n in range(0, size*2):
     cache.set(chr(ord('a')+n), n)
 print(cache)
-#All eements are new elements, given that we pushed twice the capacity and last value used is n+1
+#All elements are new elements, given that we pushed twice the capacity and last value used is n+1
+
+print('\n<<< Test Case 4 >>>')
+cache = LRU_Cache(2)
+cache.set(1, 1)
+cache.set(2, 2)
+print(cache)
+cache.set(1, 10)
+print(cache)
+print(cache.get(1))
+# should return 10
+print(cache.get(2))
+# should return 2
+print(cache)

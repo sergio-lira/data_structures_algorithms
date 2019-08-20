@@ -1,15 +1,24 @@
 Original Pseudo Code:
 * Take a string and determine the relevant frequencies of the characters.
-* Build and sort a list of tuples from lowest to highest frequencies.  
+* Build and sort a list of tuples from lowest to highest frequencies.
 * Build the Huffman Tree by assigning a binary code to each letter, using shorter codes for the more frequent letters. (This is the heart of the Huffman algorithm.)
 * Trim the Huffman Tree (remove the frequencies from the previously built tree).
 * Encode the text into its compressed form.
 * Decode the text from its compressed form
 
-Notes and efficiency:
+Notes:
 * Created a Node that will be used by the HuffmanTree, each Node stores the key, frequency, left node, right node. Implements the arithmetic comparison overwrite (important for the heap that is used to build the tree).
 * Generate the list of frequency tuples by leveraging the Counter of collection and sorting this Counter by frequency. Time complexity: O(n) for the iteration of the string. I assume the Counter implements some efficient sorting of O(n log n), like a merge sort or heap sort. Space: O(n) for the counter.
 * Build a tree using a min-heap that contains the leaves, the iterative implementation build the rest of the tree branches and ends with reference to the root node. Time complexity: O(n) + O(n/2) x O(log n)? This one is tricky... for each pair of values I create another node and push it to the heap, inserting to a heap can take up to O(log n) time.
 * The map_codes performs a recursive DFS traversal, uses a string variable that builds a binary path to each leaf as the traversal happens. At each leaf, the current node key and the running string is stored in a map. The inverse mapping is stored too to facilitate decoding. DFS is time O(n), and the mapping of the codes is + O(n) is space.
 * The encode step iterates each character, gets the corresponding binary representation and concatenates the values together. O(n) for the iteration of the string to decode, retrieving each code is done in constant time since it's a dictionary.
 * The decoding step reads the input string and has a running buffer of the read bits. If the decoder finds a match for the running string in the map, it concatenates the matching representation and resets the running string. O(n) for the decoding of the string, the code matching is done again in O(1)
+
+Efficiency:
+Time - Overall for complete encoding/decoding: O(nlogn) where n is the character length
+* Reading the string and generating the frequency count and sorting is O(s) + O(nlogn), where s in the number of string and n is the number of elements in the counter.
+* Popping and pushing elements to the min-heap is O(n) + O(nlogn)
+* DFS to encode is O(n) where n is the number of nodes in the tree
+* Decoding the string is O(s) where s is the length of the string.
+
+Space - Overall for complete ecoding/decoding: O(n) where n is the character length
