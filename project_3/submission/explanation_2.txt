@@ -1,0 +1,32 @@
+#### Search in a Rotated Sorted Array
+
+You are given a sorted array which is rotated at some random pivot point.
+
+Example: [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You can assume there are no duplicates in the array and your algorithm's runtime complexity must be in the order of O(log n).
+
+Example:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0, Output: 4
+
+##### Notes:
+
+Algorithm:
+* Find the pivot index in the array,  is done with a modified binary search. The search looks for the value that is to the left of a smaller one or to the right of a larger.
+* If there is no pivot, perform a normal binary search
+* If the pivot index is the value return the pivot
+* If the first element of the array is larger than the target value
+* Search the towards the left of the pivot index
+* Else search towards the right of the pivot value
+
+Efficiency
+
+Time: Overall O(logn)
+Binary Search - O(logn) since every time the recursion happens we 'half' the input, it will take logn recursion calls to find the base case.
+Pivot search - O(logn) is simply a binary search that has different conditions and base cases.
+
+Space: Overall O(logn)
+Both the pivot search and binary search will generate logn recursive calls in the call stack. This translates to a space complexity of logn
