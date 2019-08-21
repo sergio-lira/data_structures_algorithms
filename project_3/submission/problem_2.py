@@ -94,3 +94,6 @@ print("Searching for 20: {}".format(test_function([[], 1])))
 arr = [n for n in range(-20,1,1)]
 print("Negative Array: {}".format(arr))
 print("Searching for 20: {}".format(test_function([arr, -11])))
+arr = arr[10:]+arr[0:10]
+print("Rotated Array: {}".format(arr))
+print("Searching for 20: {}".format(test_function([arr, -11])))
