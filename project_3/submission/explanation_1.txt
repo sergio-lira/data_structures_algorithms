@@ -1,0 +1,23 @@
+#### Finding the Square Root of an Integer
+Find the square root of the integer without using any Python library. You have to find the floor value of the square root.
+
+For example, if the given number is 16, then the answer would be 4.
+
+If the given number is 27, the answer would be 5 because sqrt(5) = 5.196 whose floor value is 5.
+
+The expected time complexity is O(log(n))
+
+##### Notes
+I also tried to create my own 'binary' search solution that would recursively approach the square root by selecting a low and high guess. But for the final solution, I will use Newton's method of computing square roots, I remember it from my class on computational arithmetic.
+
+Algorithm:
+* Start with an initial guess
+* Verify if the guess is close to the real sqrt by calculating the difference between its power of 2.
+* If acceptable return the floor of the calculated guess
+* If not, calculate a new guess using Newton's method and recurse
+
+Efficiency:
+
+Time- O(logn) each recursive function will approach the number by calculating a more accurate guess. Each iteration approaches the real sqrt with approximately twice the precision.
+
+Space = O(logn) There will be close to logn recursive calls in the stack as the computation approaches the real sqrt
