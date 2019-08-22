@@ -1,0 +1,24 @@
+### Rearrange Array Elements
+
+To form two number such that their sum is maximum, return these two numbers. You can assume that all array elements are in the range [0, 9]. The number of digits in both numbers cannot differ by more than 1. You're not allowed to use any sorting function that Python provides and the expected time complexity is O(nlog(n)).
+
+for e.g. [1, 2, 3, 4, 5]
+
+The expected answer would be [531, 42]. Another expected answer can be [542, 31]. In scenarios such as these when there are more than one possible answers, return any one.
+
+Algorithm:
+* Use a sort algorithm learned in the module to sort the input (instructions said that we couldn't use sort(), but no one said we couldn't use our own.
+* Once sorted we can use the sorted array as a stack, and 'pop' from the end to get the next max number
+* Create two numbers by popping two elements from the end of the sorted array and adding them to the respective number
+* When the stack is empty, we have two names that were created from the most significant digit a given point, thus the maximum possible sum of two numbers.
+* This algorithm expands to more numbers, we could create 3,4 or n numbers from the list, pop as many elements as needed and add the digit to each running number.
+
+Efficiency:
+
+Time - Overall O(nlogn)
+* sorting the array with merge sort is done in O(nlogn)
+* Popping the elements of the 'stack' until we are done is O(n)
+
+Space - Overall O(n)
+* Merge Sort uses a space complexity of O(n) while it sorts the elements in the array.
+* I'm using numbers to keep the running sum of each number, so space is constant.
