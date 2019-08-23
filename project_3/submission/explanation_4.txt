@@ -1,0 +1,25 @@
+### Dutch National Flag Problem
+
+Given an input array consisting on only 0, 1, and 2, sort the array in a single traversal.
+You're not allowed to use any sorting function that Python provides.
+
+Note: O(n) does not necessarily mean single-traversal. For e.g. if you traverse the array twice, that would still be an O(n) solution but it will not count as single traversal.
+
+#### Notes:
+
+Algorithm:
+* Keep three references to possible elements in the array. One for 0s, 2s, and a 'runner' index.
+* Index_0 start at the 0 position and Index_2 at the end of the array.
+* We want to start 'moving' 0s to the start of the array and 2s to the end of the array.
+* If the current element at 'index' is 0, swap it with the element at index_0
+* If the current element at 'index' is 2, swap it with the element at index_2
+* Else the element is a 1 and should be left at its current index,
+* move the current index,
+
+Efficiency:
+
+Time Overall = O(n)
+* While we are keeping three different indexes, we only need to iterate through the array once to swap all their elements. Once the runner 'index' overtakes the Index_2 position, we are done.
+
+Space - O(1)
+* All the operations are performed in-place/
