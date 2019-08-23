@@ -1,0 +1,48 @@
+# Building a Trie in Python
+
+Before we start let us reiterate the key components of a Trie or Prefix Tree. A trie is a tree-like data structure that stores a dynamic set of strings. Tries are commonly used to facilitate operations like predictive text or autocomplete features on mobile phones or web search.
+
+Before we move into the autocomplete function we need to create a working trie for storing strings.  We will create two classes:
+* A `Trie` class that contains the root node (empty string)
+* A `TrieNode` class that exposes the general functionality of the Trie, like inserting a word or finding the node which represents a prefix.
+
+Give it a try by implementing the `TrieNode` and `Trie` classes below!
+
+### Notes:
+
+Algorithms:
+* Insert & Find, both algorithms are very similar
+* Iterate the characters in the string
+* Verify that the current character is a child of the current node
+* If not,
+* (For Insert) create a new TrieNode, add it to the children of the current node
+* (For Find) return False
+* Iterate to the next node.
+* (For Find return the node if a path is found)
+
+Efficiency:
+
+Insert - Time O(n) and Space O(n) where n is the length of the string. To insert to new word it's necessary to iterate all of its characters and insert each if they are new in the Trie
+
+Find - Time O(n) and Space O(1) were n is the length of the string. For each character in the word, we traverse the Trie to find a TrieNode in that Path. Space is constant since we don't create another structure for this traversal and is done one character at a time.
+
+# Finding Suffixes
+
+Now that we have a functioning Trie, we need to add the ability to list suffixes to implement our autocomplete feature.  To do that, we need to implement a new function on the `TrieNode` object that will return all complete word suffixes that exist below it in the trie.  For example, if our Trie contains the words `["fun", "function", "factory"]` and we ask for suffixes from the `f` node, we would expect to receive `["un", "unction", "actory"]` back from `node.suffixes()`.
+
+Using the code you wrote for the `TrieNode` above, try to add the suffixes function below. (Hint: recurse down the trie, collecting suffixes as you go.)
+
+### Notes:
+
+Algorithm for generating suffixes under a node:
+* Base case: if the current node is a word, return the path to this node as a word.
+* Recursion case: for each character (children) of the current node
+    * recurse and append the current char to the running suffix.
+* This can be elegantly implemented with the use of generators and the python keywords 'yield' and 'yield from.'
+* The generator will return a list of all the yielded elements
+
+Efficiency:
+
+Time: O(n*b) was n is all the nodes that derive from that node, and b is the branching factor. The recursive call will iterate all the branches until it finds a leaf a node and returns, then iterate to the next branch.
+
+Space O(n) there will be at most n recursive call in the stack, where n is the length of the path to the leaf node.
