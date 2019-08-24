@@ -1,0 +1,152 @@
+Jupyter Notebook
+7. Request Routing in a Web Server with a Trie
+Last Checkpoint: a few seconds ago
+(autosaved)
+Current Kernel Logo
+Python [default]
+File
+Edit
+View
+Insert
+Cell
+Kernel
+Widgets
+Help
+
+###
+### Part 1
+​
+First we need to implement a slightly different Trie than the one we used for autocomplete. Instead of simple words the Trie will contain a part of the http path at each node, building from the root node /
+​
+In addition to a path though, we need to know which function will handle the http request. In a real router we would probably pass an instance of a class like Python's SimpleHTTPRequestHandler which would be responsible for handling requests to that path. For the sake of simplicity we will just use a string that we can print out to ensure we got the right handler
+​
+We could split the path into letters similar to how we did the autocomplete Trie, but this would result in a Trie with a very large number of nodes and lengthy traversals if we have a lot of pages on our site. A more sensible way to split things would be on the parts of the path that are separated by slashes ("/"). A Trie with a single path entry of: "/about/me" would look like:
+​
+(root, None) -> ("about", None) -> ("me", "About Me handler")
+​
+We can also simplify our RouteTrie a bit by excluding the suffixes method and the endOfWord property on RouteTrieNodes. We really just need to insert and find nodes, and if a RouteTrieNode is not a leaf node, it won't have a handler which is fine.
+​
+### Part 2
+Next we need to implement the actual Router. The router will initialize itself with a RouteTrie for holding routes and associated handlers. It should also support adding a handler by path and looking up a handler by path. All of these operations will be delegated to the RouteTrie.
+​
+Hint: the RouteTrie stores handlers under path parts, so remember to split your path around the '/' character
+​
+Bonus Points: Add a not found handler to your Router which is returned whenever a path is not found in the Trie.
+​
+More Bonus Points: Handle trailing slashes! A request for '/about' or '/about/' are probably looking for the same page. Requests for '' or '/' are probably looking for the root handler. Handle these edge cases in your Router.
+​
+### Notes:
+​
+Algorithm
+* Similar to the previous trie but instead of inserting characters it uses whole words that represent dir in a url path.
+* For the Route I made use of Python's split and strip methods to trim any unnecessary characters and split each directory by '/'
+* Added a root handler as part of the Router constructor.
+​
+Efficiency:
+Time: O(n) for inserting and looking-up a path/handle were N is the number of directories in a given path.
+​
+Space: O(1)  look-up and insert operations are done in constant space. We don't create any additional data structures on top of the existing Trie
+class RouteTrie:
+    def __init__(self):
+       self.root=RouteTrieNode()
+​
+    def insert(self, path, handler):
+        current_node = self.root
+
+        #Split the path by / and iterate the nodes generated
+        for node in path:
+            if node not in current_node.children:
+                current_node.insert(node)
+            current_node = current_node.children[node]
+
+        #The end node will be the leaf node that will contain the handler
+        current_node.handler = handler
+​
+    def find(self, path):
+        current_node = self.root
+​
+        for node in path:
+            if node not in current_node.children:
+                return False
+            current_node = current_node.children[node]
+​
+        return current_node.handler
+​
+
+class RouteTrieNode:
+    def __init__(self, handler=None):
+        self.handler = None
+        self.children = {}
+
+    def insert(self, node):
+        self.children[node] = RouteTrieNode()
+
+#The Router class will wrap the Trie and handle
+class Router:
+    def __init__(self, root_handler):
+        self.route_trie = RouteTrie()
+        self.add_handler("/", root_handler)
+​
+    def add_handler(self, path, handler):
+        path = self.split_path(path)
+        if len(path) > 0:
+            self.route_trie.insert(path, handler)
+​
+    def lookup(self, path):
+
+        handler = self.route_trie.find(self.split_path(path))
+        if handler:
+            return handler
+        else:
+            return 'not found handler'
+​
+    def split_path(self, path):
+        if len(path) > 1:
+            path = '/'+ path.strip('/')
+        return path.split('/')
+​
+# create the router and add a route
+router = Router("root handler") # remove the 'not found handler' if you did not implement this
+router.add_handler("/home/about", "about handler")  # add a route
+​
+print('<< Basic Test Cases >>')
+# some lookups with the expected output
+print(router.lookup("/")) # should print 'root handler'
+print(router.lookup("/home")) # should print 'not found handler' or None if you did not implement one
+print(router.lookup("/home/about")) # should print 'about handler'
+print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
+print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one\\
+​
+print('\n<< More Test Cases >>')
+router.add_handler("/home/about/me/contact", "contact handler")  # add a route
+print(router.lookup("/home/about/me/contact")) #should print contact handler
+​
+router.add_handler("/home/social_media/facebook", "facebook handler")  # add a route
+print(router.lookup("/home/social_media/facebook"))  # should print facebook handler
+​
+router.add_handler("/home/social_media/twitter", "twitter handler")  # add a route
+print(router.lookup("/home/social_media/twitter"))  # should print twitter handle
+​
+​
+router.add_handler("/home/sub_dir///", "sub_dir handler")  # add a by ignoring trailing '/'
+print(router.lookup("/home/sub_dir///"))  #should print sub_dir handler
+​
+print(router.lookup("/////"))  #Should print root found handler
+​
+<< Basic Test Cases >>
+root handler
+not found handler
+about handler
+about handler
+not found handler
+
+<< More Test Cases >>
+contact handler
+facebook handler
+twitter handler
+sub_dir handler
+root handler
+1. One; any indefinite example of; used to denote a singular item of a group.
+2. Used in conjunction with the adjectives score, dozen, hundred, thousand, and million, as a function word.
+3. One certain or particular; any single. Brown, Lesley, (2003)
+ Definitions by Grammarly
